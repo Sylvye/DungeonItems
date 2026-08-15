@@ -1,0 +1,17 @@
+name: DungeonItems
+version: ${version}
+main: com.dungeonitems.DungeonItemsPlugin
+api-version: '1.21'
+author: Sylvye
+description: RPG presentation, templates, and kits backed by ConfigurableItems.
+depend: [ConfigurableItems]
+commands:
+  dungeonitems:
+    description: Manage DungeonItems templates and kits.
+    usage: /dungeonitems
+    aliases: [di]
+    permission: dungeonitems.admin
+permissions:
+  dungeonitems.admin:
+    description: Allows DungeonItems authoring and distribution.
+    default: op
