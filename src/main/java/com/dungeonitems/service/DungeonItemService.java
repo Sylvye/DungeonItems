@@ -21,6 +21,11 @@ public final class DungeonItemService implements DungeonItemsAPI {
     private final TemplateRepository templates;
     private final PresentationRenderer renderer;
     private final Logger logger;
+    private com.dungeonitems.storage.KitRepository kits;
+
+    public void kitRepository(com.dungeonitems.storage.KitRepository kits) { this.kits = kits; }
+    @Override public Collection<String> kits() { return kits == null ? java.util.List.of() : kits.all().stream().map(com.dungeonitems.model.KitDefinition::id).toList(); }
+    @Override public Optional<com.dungeonitems.model.KitDefinition> kit(String id) { return kits == null ? Optional.empty() : Optional.ofNullable(kits.get(id)); }
 
     public DungeonItemService(ConfigurableItemsAPI ci, TemplateRepository templates, PresentationRenderer renderer, Logger logger) {
         this.ci = ci; this.templates = templates; this.renderer = renderer; this.logger = logger;

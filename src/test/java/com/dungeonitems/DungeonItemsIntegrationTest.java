@@ -69,4 +69,18 @@ final class DungeonItemsIntegrationTest {
         player.simulateInventoryClick(45);
         assertEquals("DI: Kits", player.getOpenInventory().getTitle());
     }
+
+    @Test void publicKitApiListsKitsAndReturnsDetachedContents() {
+        MockBukkit.load(ConfigurableItemsPlugin.class);
+        MockBukkit.load(DungeonItemsPlugin.class);
+        PlayerMock player = server.addPlayer(); player.setOp(true);
+        assertTrue(player.performCommand("di kit create api_kit"));
+        player.simulateInventoryClick(9);
+        var api = Bukkit.getServicesManager().load(com.dungeonitems.api.DungeonItemsAPI.class);
+        assertNotNull(api); assertTrue(api.kits().contains("api_kit"));
+        var kit = api.kit("api_kit").orElseThrow();
+        kit.slots().put("inventory.0", new org.bukkit.inventory.ItemStack(Material.DIAMOND));
+        assertTrue(api.kit("api_kit").orElseThrow().slots().isEmpty());
+        assertTrue(api.kit("missing").isEmpty());
+    }
 }

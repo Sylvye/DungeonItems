@@ -23,6 +23,7 @@ public class DungeonItemsPlugin extends JavaPlugin {
         if (ci == null) throw new IllegalStateException("ConfigurableItems API is unavailable");
         Path data = getDataFolder().toPath(); TemplateRepository templates = new TemplateRepository(data.resolve("items")); KitRepository kits = new KitRepository(data.resolve("kits"));
         service = new DungeonItemService(ci, templates, new PresentationRenderer(getConfig().getInt("lore-wrap-width", 40)), getLogger());
+        service.kitRepository(kits);
         service.reload(); kits.reload();
         EditorManager editor = new EditorManager(this, service, ci, kits); getServer().getPluginManager().registerEvents(editor, this);
         DungeonItemsCommand command = new DungeonItemsCommand(service, kits, new KitGiver(), editor); PluginCommand di = getCommand("dungeonitems");
